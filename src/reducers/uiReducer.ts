@@ -1,11 +1,11 @@
 import { uiActions } from "../actions/actions";
-import { iUiAction, iUiState } from "../interfaces";
+import { iAction, iUiState } from "../interfaces";
 
 const initialState: iUiState = {
   modalOpen: false
 }
 
-const uiReducer = (state: iUiState = initialState, action: iUiAction): iUiState => {
+const uiReducer = (state: iUiState = initialState, action: iAction): iUiState => {
   switch (action.type) {
     case uiActions.openModal:
       return {

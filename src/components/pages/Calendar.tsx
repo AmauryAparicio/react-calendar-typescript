@@ -8,6 +8,7 @@ import {
   Calendar as CaledarApi,
   EventPropGetter,
   momentLocalizer,
+  stringOrDate,
   View,
 } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -17,28 +18,21 @@ import "moment/locale/es-mx";
 import CalendarEvent from "../calendar/CalendarEvent";
 import Navbar from "../ui/Navbar";
 import messages from "../../helpers/calendar-messages-es";
-import { iEvent } from "../../interfaces";
+import { iAppState, iCalendarState, iEvent } from "../../interfaces";
 import CalendarModal from "../calendar/CalendarModal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { uiOpenModal } from "../../actions/uiActions";
+import { eventSetActive, eventUnsetActive } from "../../actions/eventsActions";
+import AddNewFav from "../ui/AddNewFav";
+import DeleteEventFav from "../ui/DeleteEventFav";
 
 moment.locale("es-mx");
 const localizer = momentLocalizer(moment);
 
-const events: Array<iEvent> = [
-  {
-    title: "Mi cumple",
-    start: moment().toDate(),
-    end: moment().add(2, "hours").toDate(),
-    bgColor: "#fafafa",
-    notes: "Notas en el evento",
-    user: {
-      name: "Amaury",
-    },
-  },
-];
-
 const Calendar: FunctionComponent = () => {
+  const { events, activeEvent } = useSelector<iAppState, iCalendarState>(
+    ({ calendar }) => calendar
+  );
   const dispatch = useDispatch();
   const [lastView, setLastView] = useState<View>(
     (localStorage.getItem("lastView") as View | undefined) || "month"
@@ -48,14 +42,22 @@ const Calendar: FunctionComponent = () => {
     dispatch(uiOpenModal());
   };
 
-  const onSelectEvent = (
-    ev: iEvent,
-    e: SyntheticEvent<HTMLElement, Event>
-  ) => {};
+  const onSelectEvent = (ev: iEvent, e: SyntheticEvent<HTMLElement, Event>) => {
+    dispatch(eventSetActive(ev));
+  };
 
   const onViewChange = (view: View) => {
     setLastView(view);
     localStorage.setItem("lastView", view);
+  };
+
+  const onSelectSlot: (slot: {
+    start: stringOrDate;
+    end: stringOrDate;
+    slots: Date[] | string[];
+    action: "select" | "click" | "doubleClick";
+  }) => void = () => {
+    dispatch(eventUnsetActive());
   };
 
   const eventStyleGetter: EventPropGetter<iEvent> = (
@@ -91,7 +93,10 @@ const Calendar: FunctionComponent = () => {
         onSelectEvent={onSelectEvent}
         onView={onViewChange}
         view={lastView}
+        onSelectSlot={onSelectSlot}
       />
+      <AddNewFav />
+      {activeEvent !== null && <DeleteEventFav />}
       <CalendarModal />
     </div>
   );
