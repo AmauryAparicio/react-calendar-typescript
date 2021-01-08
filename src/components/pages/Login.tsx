@@ -1,7 +1,23 @@
 import React, { FunctionComponent } from "react";
+import useForm from "../../hooks/useForm";
 import "./../auth/login.css";
 
 const Login: FunctionComponent = () => {
+  const loginInitial = {
+    login_email: "",
+    login_password: "",
+  };
+
+  const registerInitial = {
+    register_email: "",
+    name: "",
+    register_password: "",
+    confirm: "",
+  };
+
+  const [loginValues, handleLoginInput] = useForm(loginInitial);
+  const [registerValues, handleRegisterInput] = useForm(registerInitial);
+
   return (
     <div className="container login-container">
       <div className="row">
@@ -10,16 +26,22 @@ const Login: FunctionComponent = () => {
           <form>
             <div className="form-group">
               <input
+                name="login_email"
                 type="text"
                 className="form-control"
                 placeholder="Correo"
+                value={loginValues.login_email}
+                onChange={handleLoginInput}
               />
             </div>
             <div className="form-group">
               <input
+                name="login_password"
                 type="password"
                 className="form-control"
                 placeholder="Contraseña"
+                value={loginValues.login_password}
+                onChange={handleLoginInput}
               />
             </div>
             <div className="form-group">
@@ -33,31 +55,43 @@ const Login: FunctionComponent = () => {
           <form>
             <div className="form-group">
               <input
+                name="name"
                 type="text"
                 className="form-control"
                 placeholder="Nombre"
+                value={registerValues.name}
+                onChange={handleRegisterInput}
               />
             </div>
             <div className="form-group">
               <input
+                name="register_email"
                 type="email"
                 className="form-control"
                 placeholder="Correo"
+                value={registerValues.register_email}
+                onChange={handleRegisterInput}
               />
             </div>
             <div className="form-group">
               <input
+                name="register_password"
                 type="password"
                 className="form-control"
                 placeholder="Contraseña"
+                value={registerValues.register_password}
+                onChange={handleRegisterInput}
               />
             </div>
 
             <div className="form-group">
               <input
+                name="confirm"
                 type="password"
                 className="form-control"
                 placeholder="Repita la contraseña"
+                value={registerValues.confirm}
+                onChange={handleRegisterInput}
               />
             </div>
 

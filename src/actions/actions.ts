@@ -1,6 +1,6 @@
 export const uiActions = {
   openModal: '[ui] Open Modal',
-  closeModal: '[ui] Colse Modal'
+  closeModal: '[ui] Close Modal',
 }
 
 export const eventActions = {
@@ -8,5 +8,15 @@ export const eventActions = {
   setActive: '[event] Set Active',
   unsetActive: '[event] Unset Active',
   evUpdate: '[event] Update',
-  evDelete: '[event] Delete'
+  evDelete: '[event] Delete',
+}
+
+export const authActions = {
+  checking: '[Auth] Checking Login State',
+  finishChecking: '[Auth] Finich Checking Login State',
+  startLogin: '[Auth] Start Login',
+  login: '[Auth] Login',
+  startRegister: '[Auth] Start Register',
+  startRenew: '[Auth] Start Token Renew',
+  logout: '[Auth] Logout',
 }

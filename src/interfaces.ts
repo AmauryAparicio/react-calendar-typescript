@@ -8,6 +8,15 @@ export interface iRoute {
   exact?: boolean,
 }
 
+export interface iUser {
+  uid?: string,
+  name?: string,
+}
+
+export interface iUserState extends iUser {
+  checking: boolean;
+}
+
 export interface iEvent {
   _id?: string,
   title: string,
